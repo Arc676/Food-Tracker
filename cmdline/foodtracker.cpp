@@ -10,14 +10,28 @@ void FoodTracker::run() {
 		cout << "Enter command: ";
 		getline(cin, cmd);
 		if (cmd == "new") {
+			time_t now = time(nullptr);
 			cout << "Enter food name: ";
 			string name;
 			getline(cin, name);
-			cout << "How many days until " << name << " spoils? ";
+			cout << "Enter (d)ays or d(a)te? ";
+			string days;
 			int d;
-			cin >> d;
+			getline(cin, days);
+			if (days == "d") {
+				cout << "How many days until " << name << " spoils? ";
+				getline(cin, days);
+				d = std::stoi(days, nullptr, 0);
+			} else {
+				cout << "Enter spoilage date (YYYY-MM-DD format): ";
+				getline(cin, days);
+				struct tm timeptr;
+				strptime(days.c_str(), "%F", &timeptr);
+				time_t spoilage = mktime(&timeptr);
+				d = (int)ceil(difftime(spoilage, now) / (60 * 60 * 24));
+			}
 			Food food(name, d);
-			Item item(food, time(nullptr));
+			Item item(food, now);
 			foods->push_back(item);
 		} else if (cmd == "save" || cmd == "read") {
 			string filename;
