@@ -1,3 +1,6 @@
+#ifndef FOOD_H
+#define FOOD_H
+
 #include <string>
 
 class Food {
@@ -8,3 +11,5 @@ class Food {
 		std::string& getName();
 		int duration();
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef CUPBOARD_H
+#define CUPBOARD_H
+
 #include <list>
 #include "item.h"
 
@@ -7,3 +10,5 @@ class Cupboard {
 		Cupboard();
 		std::list<Item>* getFoods();
 };
+
+#endif

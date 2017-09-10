@@ -1,5 +1,6 @@
 #include <iostream>
-#include "food.h"
+#include <string>
+#include "libfood.h"
 
 class FoodTracker {
 	public:

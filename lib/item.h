@@ -1,3 +1,6 @@
+#ifndef ITEM_H
+#define ITEM_H
+
 #include <ctime>
 #include "food.h"
 
@@ -8,3 +11,5 @@ class Item {
 		Item(Food food, time_t date) : food(food), purchaseDate(date) {}
 		Food getFood();
 };
+
+#endif
