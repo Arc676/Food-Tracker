@@ -1,0 +1,5 @@
+.*
+foodtracker
+*.o
+*.a
+*.txt
