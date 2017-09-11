@@ -8,6 +8,17 @@ std::list<Item>* Cupboard::getFoods() {
 	return &foodstuffs;
 }
 
+void Cupboard::insertItem(Item item) {
+	std::list<Item>::iterator it;
+	int daysLeft = item.daysLeft();
+	for (it = foodstuffs.begin(); it != foodstuffs.end(); it++) {
+		if (it->daysLeft() > daysLeft) {
+			break;
+		}
+	}
+	foodstuffs.insert(it, item);
+}
+
 bool Cupboard::save(const std::string& filename) {
 	std::ofstream file;
 	file.open(filename);

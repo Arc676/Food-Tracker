@@ -10,6 +10,7 @@ class Cupboard {
 	public:
 		Cupboard();
 		std::list<Item>* getFoods();
+		void insertItem(Item);
 		bool save(const std::string& filename);
 		bool read(const std::string& filename);
 };

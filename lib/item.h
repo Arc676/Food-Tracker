@@ -3,6 +3,7 @@
 
 #include <sstream>
 #include <ctime>
+#include <cmath>
 #include "food.h"
 
 class Item {
@@ -13,6 +14,9 @@ class Item {
 		Item(const std::string& line);
 		Food getFood();
 		std::string toString();
+
+		int daysLeft();
+		static int daysBetween(time_t, time_t);
 };
 
 #endif

@@ -27,12 +27,11 @@ void FoodTracker::run() {
 				getline(cin, days);
 				struct tm timeptr;
 				strptime(days.c_str(), "%F", &timeptr);
-				time_t spoilage = mktime(&timeptr);
-				d = (int)ceil(difftime(spoilage, now) / (60 * 60 * 24));
+				d = Item::daysBetween(mktime(&timeptr), now);
 			}
 			Food food(name, d);
 			Item item(food, now);
-			foods->push_back(item);
+			cupboard->insertItem(item);
 		} else if (cmd == "save" || cmd == "read") {
 			string filename;
 			cout << "Enter filename: ";
