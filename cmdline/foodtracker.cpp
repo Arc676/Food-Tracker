@@ -2,8 +2,8 @@
 
 void FoodTracker::run() {
 	using namespace std;
-	Cupboard* cupboard = new Cupboard();
-	list<Item>* foods = cupboard->getFoods();
+	Cupboard cupboard = Cupboard();
+	list<Item>* foods = cupboard.getFoods();
 	cout << "Welcome to Food Tracker!\n";
 	string cmd;
 	while (true) {
@@ -31,19 +31,19 @@ void FoodTracker::run() {
 			}
 			Food food(name, d);
 			Item item(food, now);
-			cupboard->insertItem(item);
+			cupboard.insertItem(item);
 		} else if (cmd == "save" || cmd == "read") {
 			string filename;
 			cout << "Enter filename: ";
 			getline(cin, filename);
 			if (cmd == "save") {
-				if (cupboard->save(filename)) {
+				if (cupboard.save(filename)) {
 					cout << "Save successful\n";
 				} else {
 					cout << "Save failed\n";
 				}
 			} else {
-				if (cupboard->read(filename)) {
+				if (cupboard.read(filename)) {
 					cout << "Read successful\n";
 				} else {
 					cout << "Read failed\n";
