@@ -7,9 +7,13 @@
 #include "food.h"
 
 class FoodDB {
-	public:
 		std::map<std::string, Food> foodDB;
+	public:
 		FoodDB() : foodDB() {}
+
+		void insertFood(Food);
+		Food* findFood(const std::string&);
+
 		bool save(const std::string&);
 		bool read(const std::string&);
 };

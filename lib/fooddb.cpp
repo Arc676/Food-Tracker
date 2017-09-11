@@ -29,3 +29,15 @@ bool FoodDB::read(const std::string& filename) {
 	file.close();
 	return true;
 }
+
+Food* FoodDB::findFood(const std::string& name) {
+	std::map<std::string, Food>::iterator it = foodDB.find(name);
+	if (it == foodDB.end()) {
+		return nullptr;
+	}
+	return &(it->second);
+}
+
+void FoodDB::insertFood(Food food) {
+	foodDB[food.getName()] = food;
+}

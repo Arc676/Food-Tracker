@@ -36,16 +36,16 @@ void FoodTracker::run() {
 				cout << "Save " << name << " to database? [Y/n]: ";
 				getline(cin, inp);
 				if (inp != "n" && inp != "N") {
-					foodDB.foodDB[name] = food;
+					foodDB.insertFood(food);
 					cout << "Saved to database\n";
 				}
 			} else {
-				std::map<std::string, Food>::iterator it = foodDB.foodDB.find(name);
-				if (it == foodDB.foodDB.end()) {
+				Food* fd = foodDB.findFood(name);
+				if (fd == nullptr) {
 					cerr << "Failed to find the given food. Use 'new' instead.\n";
 					continue;
 				}
-				food = it->second;
+				food = *fd;
 			}
 			Item item(food, now);
 			cupboard.insertItem(item);
