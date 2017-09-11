@@ -3,60 +3,90 @@
 void FoodTracker::run() {
 	using namespace std;
 	Cupboard cupboard = Cupboard();
-	list<Item>* foods = cupboard.getFoods();
+	FoodDB foodDB = FoodDB();
 	cout << "Welcome to Food Tracker!\n";
 	string cmd;
 	while (true) {
 		cout << "Enter command: ";
 		getline(cin, cmd);
-		if (cmd == "new") {
+		if (cmd == "new" || cmd == "load") {
 			time_t now = time(nullptr);
-			cout << "Enter food name: ";
 			string name;
+			Food food;
+			cout << "Enter food name: ";
 			getline(cin, name);
-			cout << "Enter (d)ays or d(a)te? ";
-			string days;
-			int d;
-			getline(cin, days);
-			if (days == "d") {
-				cout << "How many days until " << name << " spoils? ";
+			if (cmd == "new") {
+				cout << "Enter (d)ays or d(a)te? (default date): ";
+				int d;
+				string days;
 				getline(cin, days);
-				d = std::stoi(days, nullptr, 0);
+				if (days == "d") {
+					cout << "How many days until " << name << " spoils? ";
+					getline(cin, days);
+					d = std::stoi(days, nullptr, 0);
+				} else {
+					cout << "Enter spoilage date (YYYY-MM-DD format): ";
+					getline(cin, days);
+					struct tm timeptr;
+					strptime(days.c_str(), "%F", &timeptr);
+					d = Item::daysBetween(mktime(&timeptr), now);
+				}
+				food = Food(name, d);
+				string inp;
+				cout << "Save " << name << " to database? [Y/n]: ";
+				getline(cin, inp);
+				if (inp != "n" && inp != "N") {
+					foodDB.foodDB[name] = food;
+					cout << "Saved to database\n";
+				}
 			} else {
-				cout << "Enter spoilage date (YYYY-MM-DD format): ";
-				getline(cin, days);
-				struct tm timeptr;
-				strptime(days.c_str(), "%F", &timeptr);
-				d = Item::daysBetween(mktime(&timeptr), now);
+				std::map<std::string, Food>::iterator it = foodDB.foodDB.find(name);
+				if (it == foodDB.foodDB.end()) {
+					cerr << "Failed to find the given food. Use 'new' instead.\n";
+					continue;
+				}
+				food = it->second;
 			}
-			Food food(name, d);
 			Item item(food, now);
 			cupboard.insertItem(item);
 		} else if (cmd == "save" || cmd == "read") {
-			string filename;
-			cout << "Enter filename: ";
+			string filename, filename2;
+			cout << "Enter cupboard filename: ";
 			getline(cin, filename);
+			cout << "Enter database filename: ";
+			getline(cin, filename2);
 			if (cmd == "save") {
 				if (cupboard.save(filename)) {
-					cout << "Save successful\n";
+					cout << "Save cupboard successful\n";
 				} else {
-					cout << "Save failed\n";
+					cout << "Save cupboard failed\n";
+				}
+				if (foodDB.save(filename2)) {
+					cout << "Save database successful\n";
+				} else {
+					cout << "Save database failed\n";
 				}
 			} else {
 				if (cupboard.read(filename)) {
-					cout << "Read successful\n";
+					cout << "Read cupboard successful\n";
 				} else {
-					cout << "Read failed\n";
+					cout << "Read cupboard failed\n";
+				}
+				if (foodDB.read(filename2)) {
+					cout << "Read database successful\n";
+				} else {
+					cout << "Read database failed\n";
 				}
 			}
 		} else if (cmd == "print") {
+			list<Item>* foods = cupboard.getFoods();
 			for (list<Item>::iterator it = foods->begin(); it != foods->end(); it++){
 				cout << "Food: " << it->getFood().getName() << "\n\tDays to spoilage: " << it->getFood().duration() << "\n";
 			}
 		} else if (cmd == "exit") {
 			break;
 		} else if (cmd == "help") {
-			cout << "new, save, read, print, exit";
+			cout << "new, load, save, read, print, exit";
 		}
 	}
 }
