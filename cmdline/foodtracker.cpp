@@ -81,7 +81,7 @@ void FoodTracker::run() {
 		} else if (cmd == "print") {
 			list<Item>* foods = cupboard.getFoods();
 			for (list<Item>::iterator it = foods->begin(); it != foods->end(); it++){
-				cout << "Food: " << it->getFood().getName() << "\n\tDays to spoilage: " << it->getFood().duration() << "\n";
+				cout << "Food: " << it->getFood().getName() << "\n\tDays to spoilage: " << it->daysLeft() << "\n";
 			}
 		} else if (cmd == "exit") {
 			break;
