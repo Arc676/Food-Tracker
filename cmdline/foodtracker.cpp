@@ -1,48 +1,47 @@
 #include "foodtracker.h"
 
 void FoodTracker::run() {
-	using namespace std;
 	Cupboard cupboard = Cupboard();
 	FoodDB foodDB = FoodDB();
-	cout << "Welcome to Food Tracker!\n";
-	string cmd;
+	std::cout << "Welcome to Food Tracker!\n";
+	std::string cmd;
 	while (true) {
-		cout << "Enter command: ";
-		getline(cin, cmd);
+		std::cout << "Enter command: ";
+		std::getline(std::cin, cmd);
 		if (cmd == "new" || cmd == "load") {
 			time_t now = time(nullptr);
-			string name;
+			std::string name;
 			Food food;
-			cout << "Enter food name: ";
-			getline(cin, name);
+			std::cout << "Enter food name: ";
+			std::getline(std::cin, name);
 			if (cmd == "new") {
-				cout << "Enter (d)ays or d(a)te? (default date): ";
+				std::cout << "Enter (d)ays or d(a)te? (default date): ";
 				int d;
-				string days;
-				getline(cin, days);
+				std::string days;
+				std::getline(std::cin, days);
 				if (days == "d") {
-					cout << "How many days until " << name << " spoils? ";
-					getline(cin, days);
+					std::cout << "How many days until " << name << " spoils? ";
+					std::getline(std::cin, days);
 					d = std::stoi(days, nullptr, 0);
 				} else {
-					cout << "Enter spoilage date (YYYY-MM-DD format): ";
-					getline(cin, days);
+					std::cout << "Enter spoilage date (YYYY-MM-DD format): ";
+					std::getline(std::cin, days);
 					struct tm timeptr;
 					strptime(days.c_str(), "%F", &timeptr);
 					d = Item::daysBetween(mktime(&timeptr), now);
 				}
 				food = Food(name, d);
-				string inp;
-				cout << "Save " << name << " to database? [Y/n]: ";
-				getline(cin, inp);
+				std::string inp;
+				std::cout << "Save " << name << " to database? [Y/n]: ";
+				std::getline(std::cin, inp);
 				if (inp != "n" && inp != "N") {
 					foodDB.insertFood(food);
-					cout << "Saved to database\n";
+					std::cout << "Saved to database\n";
 				}
 			} else {
 				Food* fd = foodDB.findFood(name);
 				if (fd == nullptr) {
-					cerr << "Failed to find the given food. Use 'new' instead.\n";
+					std::cerr << "Failed to find the given food. Use 'new' instead.\n";
 					continue;
 				}
 				food = *fd;
@@ -50,47 +49,67 @@ void FoodTracker::run() {
 			Item item(food, now);
 			cupboard.insertItem(item);
 		} else if (cmd == "save" || cmd == "read") {
-			string filename, filename2;
-			cout << "Enter cupboard filename: ";
-			getline(cin, filename);
-			cout << "Enter database filename: ";
-			getline(cin, filename2);
+			std::string filename, filename2;
+			std::cout << "Enter cupboard filename: ";
+			std::getline(std::cin, filename);
+			std::cout << "Enter database filename: ";
+			std::getline(std::cin, filename2);
 			if (cmd == "save") {
 				if (cupboard.save(filename)) {
-					cout << "Save cupboard successful\n";
+					std::cout << "Save cupboard successful\n";
 				} else {
-					cout << "Save cupboard failed\n";
+					std::cout << "Save cupboard failed\n";
 				}
 				if (foodDB.save(filename2)) {
-					cout << "Save database successful\n";
+					std::cout << "Save database successful\n";
 				} else {
-					cout << "Save database failed\n";
+					std::cout << "Save database failed\n";
 				}
 			} else {
 				if (cupboard.read(filename)) {
-					cout << "Read cupboard successful\n";
+					std::cout << "Read cupboard successful\n";
 				} else {
-					cout << "Read cupboard failed\n";
+					std::cout << "Read cupboard failed\n";
 				}
 				if (foodDB.read(filename2)) {
-					cout << "Read database successful\n";
+					std::cout << "Read database successful\n";
 				} else {
-					cout << "Read database failed\n";
+					std::cout << "Read database failed\n";
 				}
 			}
 		} else if (cmd == "print") {
-			list<Item>* foods = cupboard.getFoods();
-			for (list<Item>::iterator it = foods->begin(); it != foods->end(); it++){
-				cout << "Food: " << it->getFood().getName() << "\n\tDays to spoilage: " << it->daysLeft() << "\n";
+			std::list<Item>* foods = cupboard.getFoods();
+			for (std::list<Item>::iterator it = foods->begin(); it != foods->end(); it++) {
+				std::cout << "Food: " << it->getFood().getName() << "\n\tDays to spoilage: " << it->daysLeft() << "\n";
 			}
 		} else if (cmd == "exit") {
 			break;
 		} else if (cmd == "help") {
-			cout << "new, load, save, read, print, exit";
+			std::cout << "new, load, remove, save, read, print, exit\n";
+		} else if (cmd == "remove") {
+			std::string name;
+			std::cout << "Enter food name: ";
+			std::getline(std::cin, name);
+			std::list<std::list<Item>::iterator> items = {};
+			std::list<Item>* foods = cupboard.getFoods();
+			for (std::list<Item>::iterator it = foods->begin(); it != foods->end(); it++) {
+				if (it->getFood().getName() == name) {
+					items.push_back(it);
+				}
+			}
+			int i = 0;
+			for (std::list<std::list<Item>::iterator>::iterator it = items.begin(); it != items.end(); it++) {
+				std::cout << i << ": " << (*it)->getFood().getName() << "(" << (*it)->daysLeft() << " days left)\n";
+				i++;
+			}
 		}
 	}
 }
 
-int main(int argc, char * argv[]){
+int main(int argc, char * argv[]) {
+	std::cout << "foodtracker  Copyright (C) 2017  Arc676/Alessandro Vinciguerra\n\
+This program comes with ABSOLUTELY NO WARRANTY and is available under the General\n\
+Public License version 3; you are welcome to redistribute it\n\
+under certain conditions. See LICENSE for full GPL text." << std::endl;
 	FoodTracker().run();
 }
