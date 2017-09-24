@@ -107,18 +107,15 @@ void FoodTracker::run() {
 			std::string name;
 			std::cout << "Enter food name: ";
 			std::getline(std::cin, name);
-			std::list<std::list<Item>::iterator> items = {};
 			std::list<Item>* foods = cupboard.getFoods();
-			for (std::list<Item>::iterator it = foods->begin(); it != foods->end(); it++) {
+			std::list<Item>::iterator it;
+			for (it = foods->begin(); it != foods->end(); it++) {
 				if (it->getFood().getName() == name) {
-					items.push_back(it);
+					std::cout << "Removing " << name << "(" << it->daysLeft() << " days left)\n";
+					break;
 				}
 			}
-			int i = 0;
-			for (std::list<std::list<Item>::iterator>::iterator it = items.begin(); it != items.end(); it++) {
-				std::cout << i << ": " << (*it)->getFood().getName() << "(" << (*it)->daysLeft() << " days left)\n";
-				i++;
-			}
+			foods->erase(it);
 		}
 	}
 }

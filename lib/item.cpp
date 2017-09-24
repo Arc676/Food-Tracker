@@ -22,11 +22,11 @@ Food Item::getFood() {
 }
 
 int Item::daysBetween(time_t t1, time_t t2) {
-	return (int)ceil(difftime(t1, t2) / (60 * 60 * 24));
+	return (int)floor(difftime(t1, t2) / (60 * 60 * 24));
 }
 
 int Item::daysLeft() {
-	return food.duration() - Item::daysBetween(purchaseDate, time(nullptr));
+	return food.duration() - Item::daysBetween(time(nullptr), purchaseDate);
 }
 
 Item::Item(const std::string& line) {
