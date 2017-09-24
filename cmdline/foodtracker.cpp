@@ -121,13 +121,17 @@ void FoodTracker::run() {
 			int i = 0;
 			std::list<std::list<Item>::iterator>::iterator it;
 			for (it = items.begin(); it != items.end(); it++) {
-				std::cout << i << ": " << (*it)->getFood().getName() << "(" << (*it)->daysLeft() << " days left)\n";
+				std::cout << i << ": " << (*it)->getFood().getName() << " (" << (*it)->daysLeft() << " days left)\n";
 				i++;
 			}
 			if (i > 1) {
 				std::cout << "Enter index of food to remove: ";
 				std::getline(std::cin, name);
 				i = std::stoi(name, nullptr, 0);
+				if (i >= items.size()) {
+					std::cout << "Invalid index\n";
+					continue;
+				}
 			} else {
 				i--;
 			}
