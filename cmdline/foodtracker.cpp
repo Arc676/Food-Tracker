@@ -1,6 +1,6 @@
 //Foodtracker
 //Written by Alessandro Vinciguerra <alesvinciguerra@gmail.com>
-//Copyright (C) 2017  Arc676/Alessandro Vinciguerra
+//Copyright (C) 2017-8 Arc676/Alessandro Vinciguerra
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -15,9 +15,13 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See README.md and LICENSE for more details
 
-#include "foodtracker.h"
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cmath>
+#include "libfood.h"
 
-void FoodTracker::run() {
+void run() {
 	Cupboard cupboard = Cupboard();
 	FoodDB foodDB = FoodDB();
 	std::cout << "Welcome to Food Tracker!\n";
@@ -147,5 +151,5 @@ int main(int argc, char * argv[]) {
 This program comes with ABSOLUTELY NO WARRANTY and is available under the General\n\
 Public License version 3; you are welcome to redistribute it\n\
 under certain conditions. See LICENSE for full GPL text." << std::endl;
-	FoodTracker().run();
+	run();
 }
