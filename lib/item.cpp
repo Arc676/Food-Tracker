@@ -17,6 +17,16 @@
 
 #include "item.h"
 
+Item::Item(Food food, time_t time, float quantity) : food(food), time(time), quantity(quantity) {}
+
+void Item::updateQuantity(float delta) {
+	quantity += delta;
+}
+
+float getQuantity() {
+	return quantity;
+}
+
 Food Item::getFood() {
 	return food;
 }
