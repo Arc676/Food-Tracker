@@ -4,7 +4,7 @@ FLAGS=-std=c++11 -c
 clean:
 	rm *.a *.o
 
-lib: food.o cupboard.o item.o fooddb.o
+lib: food.o cupboard.o item.o fooddb.o recipe.o
 	ar rcs libfood.a *.o
 
 food.o:
@@ -18,3 +18,6 @@ item.o:
 
 fooddb.o:
 	$(CC) $(FLAGS) fooddb.cpp
+
+recipe.o:
+	$(CC) $(FLAGS) recipe.cpp
