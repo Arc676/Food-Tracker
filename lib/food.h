@@ -24,9 +24,20 @@ class Food {
 		std::string name;
 		int daysToSpoil;
 	public:
+		/**
+		 * Default constructor
+		 */
 		Food() : name("Unnamed food"), daysToSpoil(0) {}
+
+		/**
+		 * Construct a new food object
+		 * @param name Food name
+		 * @param days Days until food spoils
+		 */
 		Food(const std::string& name, int days) : name(name), daysToSpoil(days) {}
+
 		std::string& getName();
+
 		int duration();
 		void setDuration(int);
 };

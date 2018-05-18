@@ -29,16 +29,41 @@ class Item {
 		float quantity;
 		time_t purchaseDate;
 	public:
-		Item(Food food, time_t date float quantity);
+		/**
+		 * Construct a new Item
+		 * @param food Type of food for this item
+		 * @param date Purchase date of this item
+		 * @param quantity Quantity of food for this item
+		 */
+		Item(Food food, time_t date, float quantity);
+
+		/**
+		 * Construct a new Item from a string
+		 * representation of properties
+		 * @param line String representation of the item
+		 */
 		Item(const std::string& line);
+
 		Food getFood();
 		std::string toString();
 
 		void updateQuantity(float);
 		float getQuantity();
 
+		/**
+		 * Gets the number of days left before the item expires
+		 * @return Number of days before spoilage
+		 */
 		int daysLeft();
-		static int daysBetween(time_t, time_t);
+
+		/**
+		 * Utility function for determining the number of
+		 * days between two given dates
+		 * @param t1 Later time
+		 * @param t2 Earlier time
+		 * @return Number of days between the given dates
+		 */
+		static int daysBetween(time_t t1, time_t t2);
 };
 
 #endif

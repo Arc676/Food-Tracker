@@ -27,8 +27,25 @@ class Cupboard {
 	public:
 		Cupboard();
 		std::list<Item>* getFoods();
-		void insertItem(Item);
+
+		/**
+		 * Add a new item to the cupboard
+		 * @param item Item to add
+		 */
+		void insertItem(Item item);
+
+		/**
+		 * Save the cupboard contents to disk
+		 * @param filename Filename to which to save contents
+		 * @return Whether the save succeeded
+		 */
 		bool save(const std::string& filename);
+
+		/**
+		 * Read cupboard state from disk
+		 * @param filename Filename from which to read contents
+		 * @param Whether the load succeeded
+		 */
 		bool read(const std::string& filename);
 };
 

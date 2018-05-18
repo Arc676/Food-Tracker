@@ -28,10 +28,32 @@ class FoodDB {
 	public:
 		FoodDB() : foodDB() {}
 
-		void insertFood(Food);
-		Food* findFood(const std::string&);
+		/**
+		 * Adds a new food to the database
+		 * @param food Food to add to database
+		 */
+		void insertFood(Food food);
 
+		/**
+		 * Searches database for data regarding
+		 * food with a given name
+		 * @param name Name of food
+		 * @return Pointer to food object (null if not found)
+		 */
+		Food* findFood(const std::string& name);
+
+		/**
+		 * Save database to disk
+		 * @param filename Filename to which to save database
+		 * @return Whether the save succeeded
+		 */
 		bool save(const std::string&);
+
+		/**
+		 * Read database from disk
+		 * @param filename Filename from which to read database
+		 * @return Whether the load succeeded
+		 */
 		bool read(const std::string&);
 };
 
