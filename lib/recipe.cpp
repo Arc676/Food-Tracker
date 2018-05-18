@@ -31,7 +31,7 @@ std::map<std::string, float> Recipe::possiblePortions(Cupboard cupboard) {
 			portions[name] += item.getQuantity();
 		}
 	}
-	for (auto it : portions) {
+	for (auto& it : portions) {
 		it.second /= ingredients[it.first];
 	}
 	return portions;

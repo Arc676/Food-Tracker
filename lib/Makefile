@@ -1,8 +1,11 @@
 CC=g++
 FLAGS=-std=c++11 -c
 
+debug: FLAGS += -g -O0
+debug: lib
+
 clean:
-	rm *.a *.o
+	rm -f *.a *.o
 
 lib: food.o cupboard.o item.o fooddb.o recipe.o
 	ar rcs libfood.a *.o

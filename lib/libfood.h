@@ -15,7 +15,7 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See README.md and LICENSE for more details
 
-#include "cupboard.h"
+#include "recipe.h"
 #include "food.h"
 #include "item.h"
 #include "fooddb.h"

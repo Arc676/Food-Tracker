@@ -46,13 +46,16 @@ Item::Item(const std::string& line) {
 	size_t pos2 = line.find('|', pos + 1);
 	int days = std::stoi(line.substr(pos + 1, pos2));
 
+	pos = line.find('|', pos2 + 1);
+	quantity = std::stoi(line.substr(pos2 + 1, pos));
+
 	food = Food(name, days);
 
-	purchaseDate = (time_t)std::stoi(line.substr(pos2 + 1));
+	purchaseDate = (time_t)std::stoi(line.substr(pos + 1));
 }
 
 std::string Item::toString() {
 	std::stringstream ss;
-	ss << food.getName() << "|" << food.duration() << "|" << purchaseDate;
+	ss << food.getName() << "|" << food.duration() << "|" << quantity << "|" << purchaseDate;
 	return ss.str();
 }

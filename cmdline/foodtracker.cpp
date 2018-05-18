@@ -21,7 +21,7 @@
 #include <cmath>
 #include "libfood.h"
 
-int getTime() {
+int getTime(std::string &name, time_t now) {
 	std::cout << "Enter (d)ays or d(a)te? (default date): ";
 	std::string days;
 	std::getline(std::cin, days);
@@ -53,7 +53,7 @@ void run() {
 			std::cout << "Enter food name: ";
 			std::getline(std::cin, name);
 			if (cmd == "new") {
-				food = Food(name, getTime());
+				food = Food(name, getTime(name, now));
 				std::string inp;
 				std::cout << "Save " << name << " to database? [Y/n]: ";
 				std::getline(std::cin, inp);
@@ -71,11 +71,14 @@ void run() {
 				std::string input;
 				std::cout << "Use default spoilage time (" << food.duration() << ")? [Y/n]: ";
 				std::getline(std::cin, input);
-				if (input == "n" || inp == "N") {
-					food.setDuration(getTime());
+				if (input == "n" || input == "N") {
+					food.setDuration(getTime(name, now));
 				}
 			}
-			Item item(food, now);
+			std::cout << "Enter quantity of food stored: ";
+			float qty;
+			std::cin >> qty;
+			Item item(food, now, qty);
 			cupboard.insertItem(item);
 		} else if (cmd == "save" || cmd == "read") {
 			std::string filename, filename2;

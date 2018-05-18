@@ -1,7 +1,12 @@
 CC=g++
+FLAGS=-std=c++11 -I ../lib -L ../lib
+LD=-l food
+
+debug: FLAGS += -g -O0
+debug: all
 
 all:
-	$(CC) -std=c++11 -I ../lib -L ../lib foodtracker.cpp -l food -o foodtracker
+	$(CC) $(FLAGS) foodtracker.cpp $(LD) -o foodtracker
 
 clean:
-	rm foodtracker
+	rm -f foodtracker
