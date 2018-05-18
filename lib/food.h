@@ -28,6 +28,7 @@ class Food {
 		Food(const std::string& name, int days) : name(name), daysToSpoil(days) {}
 		std::string& getName();
 		int duration();
+		void setDuration(int);
 };
 
 #endif

@@ -21,6 +21,23 @@
 #include <cmath>
 #include "libfood.h"
 
+int getTime() {
+	std::cout << "Enter (d)ays or d(a)te? (default date): ";
+	std::string days;
+	std::getline(std::cin, days);
+	if (days == "d") {
+		std::cout << "How many days until " << name << " spoils? ";
+		std::getline(std::cin, days);
+		return std::stoi(days, nullptr, 0);
+	} else {
+		std::cout << "Enter spoilage date (YYYY-MM-DD format): ";
+		std::getline(std::cin, days);
+		struct tm timeptr;
+		strptime(days.c_str(), "%F", &timeptr);
+		return Item::daysBetween(mktime(&timeptr), now);
+	}
+}
+
 void run() {
 	Cupboard cupboard = Cupboard();
 	FoodDB foodDB = FoodDB();
@@ -36,22 +53,7 @@ void run() {
 			std::cout << "Enter food name: ";
 			std::getline(std::cin, name);
 			if (cmd == "new") {
-				std::cout << "Enter (d)ays or d(a)te? (default date): ";
-				int d;
-				std::string days;
-				std::getline(std::cin, days);
-				if (days == "d") {
-					std::cout << "How many days until " << name << " spoils? ";
-					std::getline(std::cin, days);
-					d = std::stoi(days, nullptr, 0);
-				} else {
-					std::cout << "Enter spoilage date (YYYY-MM-DD format): ";
-					std::getline(std::cin, days);
-					struct tm timeptr;
-					strptime(days.c_str(), "%F", &timeptr);
-					d = Item::daysBetween(mktime(&timeptr), now);
-				}
-				food = Food(name, d);
+				food = Food(name, getTime());
 				std::string inp;
 				std::cout << "Save " << name << " to database? [Y/n]: ";
 				std::getline(std::cin, inp);
@@ -66,6 +68,12 @@ void run() {
 					continue;
 				}
 				food = *fd;
+				std::string input;
+				std::cout << "Use default spoilage time (" << food.duration() << ")? [Y/n]: ";
+				std::getline(std::cin, input);
+				if (input == "n" || inp == "N") {
+					food.setDuration(getTime());
+				}
 			}
 			Item item(food, now);
 			cupboard.insertItem(item);
