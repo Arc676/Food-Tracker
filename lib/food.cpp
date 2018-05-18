@@ -25,6 +25,6 @@ int Food::duration() {
 	return daysToSpoil;
 }
 
-void Food:setDuration(int days) {
+void Food::setDuration(int days) {
 	daysToSpoil = days;
 }

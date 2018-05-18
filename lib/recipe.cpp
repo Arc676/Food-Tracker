@@ -22,3 +22,17 @@ Recipe::Recipe(std::string name, std::map<std::string, float> ingredients) : nam
 std::string Recipe::getName() {
 	return name;
 }
+
+std::map<std::string, float> Recipe::possiblePortions(Cupboard cupboard) {
+	std::map<std::string, float> portions;
+	for (auto item : *(cupboard.getFoods())) {
+		std::string name = item.getFood().getName();
+		if (ingredients.find(name) != ingredients.end()) {
+			portions[name] += item.getQuantity();
+		}
+	}
+	for (auto it : portions) {
+		it.second /= ingredients[it.first];
+	}
+	return portions;
+}

@@ -23,7 +23,7 @@ void Item::updateQuantity(float delta) {
 	quantity += delta;
 }
 
-float getQuantity() {
+float Item::getQuantity() {
 	return quantity;
 }
 

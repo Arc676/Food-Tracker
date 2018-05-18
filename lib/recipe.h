@@ -21,6 +21,8 @@
 #include <string>
 #include <map>
 
+#include "cupboard.h"
+
 class Recipe {
 	std::string name;
 	std::map<std::string, float> ingredients;
@@ -31,6 +33,14 @@ public:
 	 * @param ingredients Map containing ingredients and required quantities
 	 */
 	Recipe(std::string name, std::map<std::string, float> ingredients);
+
+	/**
+	 * Determines how many portions of the recipe can be prepared given
+	 * the ingredients in the given cupboard
+	 * @param cupboard Cupboard whose ingredients to check
+	 * @return Map showing percentage of required quantity of each ingredient present
+	 */
+	 std::map<std::string, float> possiblePortions(Cupboard cupboard);
 
 	std::string getName();
 };
